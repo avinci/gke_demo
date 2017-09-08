@@ -126,17 +126,18 @@ resources:
     version:
       count: 1
 
-- name: prod-lb
-  type: loadBalancer
-  integration: "demo_gke"
-  pointer:
-    sourceName: "prod-lb"
-    method: LoadBalancer
-    namespace: default
-  version:
-    ports:
-      - name: prodPort
-        protocol: TCP
-        port: 80
-    selector:
-      env: "prod"
+# Prod load balancer definition
+  - name: prod-lb
+    type: loadBalancer
+    integration: "demo_gke"
+    pointer:
+      sourceName: "prod-lb"
+      method: LoadBalancer
+      namespace: default
+    version:
+      ports:
+        - name: prodPort
+          protocol: TCP
+          port: 80
+      selector:
+        env: "prod"

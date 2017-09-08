@@ -97,3 +97,4 @@ jobs:
     type: provision
     steps:
       - IN: deploy-app-prod
+      - IN: prod-lb
