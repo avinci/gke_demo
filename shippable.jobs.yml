@@ -92,9 +92,9 @@ jobs:
       - TASK: managed
 
 
-# Create elb
-  - name: create-lb
-    type: provision
-    steps:
-      - IN: deploy-app-prod
-      - IN: prod-lb
+## Create elb
+#  - name: create-lb
+#    type: provision
+#    steps:
+#      - IN: deploy-app-prod
+#      - IN: prod-lb
