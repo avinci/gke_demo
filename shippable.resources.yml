@@ -12,13 +12,6 @@ resources:
       sourceName: "avinci/gke_demo"
       branch: master
 
-# AMI VPC Creation Config
-  - name: aws_region
-    type: params
-    version:
-      params:
-        AWS_REGION: "us-east-1"
-
 ###---------------------------------------------------------------#
 ###----------------------- BUILD/CI Resources --------------------#
 ###---------------------------------------------------------------#
