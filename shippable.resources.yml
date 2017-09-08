@@ -43,8 +43,8 @@ resources:
     type: cluster
     integration: "demo_gke"
     pointer:
-      sourceName: "test" #name of the cluster to which we are deploying
-      region: "us-west1-b"  #name of the region where the cluster is deployed
+      sourceName: "prod" #name of the cluster to which we are deploying
+      region: "us-east1-c"  #name of the region where the cluster is deployed
 
 
 #---------------------------------------------------------------#
