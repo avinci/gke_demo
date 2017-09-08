@@ -46,7 +46,6 @@ resources:
       sourceName: "prod" #name of the cluster to which we are deploying
       region: "us-east1-c"  #name of the region where the cluster is deployed
 
-
 #---------------------------------------------------------------#
 #------------- Application Release Automation Resources --------#
 #---------------------------------------------------------------#

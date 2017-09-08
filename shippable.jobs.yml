@@ -22,7 +22,7 @@ jobs:
 ##---------------------------------------------------------------#
 
 # DEPLOY to TEST environment
-  - name: deploy_app_test
+  - name: deploy-app-test
     type: deploy
     steps:
       - IN: create_app_man
@@ -30,59 +30,59 @@ jobs:
         switch: off
       - TASK: managed
 
-# RUN System Integration Testing
-  - name: sit
-    type: runSh
-    steps:
-      - IN: sit_repo
-      - IN: deploy_app_test
-      - IN: sit_params
-      - TASK:
-        - script: IN/sit_repo/gitRepo/test.sh sit_params
-    on_success:
-      - script: touch /build/state/success.txt
-    on_failure:
-      - script: touch /build/state/failure.txt
-
-# CREATE a production ready release
-  - name: release_app
-    type: release
-    steps:
-      - IN: seed_app_ver
-      - IN: sit
-      - IN: deploy_app_test
-        switch: off
-      - TASK: managed
-        bump: patch
-
+## RUN System Integration Testing
+#  - name: sit
+#    type: runSh
+#    steps:
+#      - IN: sit_repo
+#      - IN: deploy-app-test
+#      - IN: sit_params
+#      - TASK:
+#        - script: IN/sit_repo/gitRepo/test.sh sit_params
+#    on_success:
+#      - script: touch /build/state/success.txt
+#    on_failure:
+#      - script: touch /build/state/failure.txt
+#
+## CREATE a production ready release
+#  - name: release_app
+#    type: release
+#    steps:
+#      - IN: seed_app_ver
+#      - IN: sit
+#      - IN: deploy_app_test
+#        switch: off
+#      - TASK: managed
+#        bump: patch
+#
+###---------------------------------------------------------------#
+###----------------------- CD to Production ----------------------#
+###---------------------------------------------------------------#
+#
+## TRIGGER PROD deployment
+#  - name: trig_prod_deploy
+#    type: runSh
+#    steps:
+#      - IN: gke_demo
+#        switch: off
+#      - IN: release_app
+#        switch: off
+#      - OUT: prod_app_ver
+#      - TASK:
+#        - script: IN/gke_demo/gitRepo/setVer.sh release_app prod_app_ver
+#
 ##---------------------------------------------------------------#
-##----------------------- CD to Production ----------------------#
+##-------------- Prod Infra Prov Using ANsible  -----------------#
 ##---------------------------------------------------------------#
-
-# TRIGGER PROD deployment
-  - name: trig_prod_deploy
-    type: runSh
-    steps:
-      - IN: gke_demo
-        switch: off
-      - IN: release_app
-        switch: off
-      - OUT: prod_app_ver
-      - TASK:
-        - script: IN/gke_demo/gitRepo/setVer.sh release_app prod_app_ver
-
-#---------------------------------------------------------------#
-#-------------- Prod Infra Prov Using ANsible  -----------------#
-#---------------------------------------------------------------#
-
-# DEPLOY app to PROD
-  - name: deploy_app_prod
-    type: deploy
-    steps:
-      - IN: scale_app_prod
-      - IN: release_app
-        switch: off
-      - IN: prod_env_gke
-        switch: off
-      - TASK: managed
-#        deployMethod: replace
+#
+## DEPLOY app to PROD
+#  - name: deploy_app_prod
+#    type: deploy
+#    steps:
+#      - IN: scale_app_prod
+#      - IN: release_app
+#        switch: off
+#      - IN: prod_env_gke
+#        switch: off
+#      - TASK: managed
+##        deployMethod: replace
