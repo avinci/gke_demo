@@ -26,7 +26,6 @@ jobs:
     type: deploy
     steps:
       - IN: create_app_man
-        switch: off
       - IN: test_env_gke
         switch: off
       - TASK: managed
@@ -55,7 +54,6 @@ jobs:
         switch: off
       - TASK: managed
         bump: patch
-
 
 ##---------------------------------------------------------------#
 ##----------------------- CD to Production ----------------------#
