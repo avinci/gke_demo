@@ -31,7 +31,7 @@ resources:
     version:
       privileged: true
       portMappings:
-        - 80:80
+        - 8080:80
       labels:
         env: test
 
@@ -52,8 +52,8 @@ resources:
     type: cluster
     integration: "demo_gke"
     pointer:
-      sourceName: "test" #name of the cluster to which we are deploying
-      region: "asia-southeast1-a"  #name of the region where the cluster is deployed
+      sourceName : "prod"
+      region: "us-east1-b"
 
 #---------------------------------------------------------------#
 #------------- Application Release Automation Resources --------#
