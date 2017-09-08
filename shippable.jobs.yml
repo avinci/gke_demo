@@ -79,6 +79,7 @@ jobs:
   - name: deploy-app-prod
     type: deploy
     steps:
+      - IN: trig_prod_deploy
       - IN: scale_app_prod
       - IN: release_app
         switch: off
