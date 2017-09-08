@@ -130,6 +130,8 @@ resources:
   - name: prod-lb
     type: loadBalancer
     integration: "demo_gke"
+    clusterName: "prod"
+    region: "us-east1-b"
     pointer:
       sourceName: "prod-lb"
       method: LoadBalancer
