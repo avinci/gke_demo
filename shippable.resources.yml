@@ -29,7 +29,7 @@ resources:
   - name: def_opts
     type: dockerOptions
     version:
-      memory: 128
+      privileged: true
       portMappings:
         - 80:80
 
@@ -94,14 +94,14 @@ resources:
     type: cluster
     integration: "demo_gke"
     pointer:
-      sourceName : "test"
-      region: "us-west1-b"
+      sourceName : "prod"
+      region: "us-east1-c"
 
 # Default Docker Options
   - name: prod_opts
     type: dockerOptions
     version:
-      memory: 256
+      privileged: false
       portMappings:
         - 80:80
 
