@@ -1,0 +1,108 @@
+resources:
+
+#---------------------------------------------------------------#
+#-------------------- Common Resources -------------------#
+#---------------------------------------------------------------#
+
+# Security Ops scripts repo
+  - name: gke_demo
+    type: gitRepo
+    integration: "demo_gh"
+    pointer:
+      sourceName: "avinci/gke_demo"
+      branch: master
+
+# AMI VPC Creation Config
+  - name: aws_region
+    type: params
+    version:
+      params:
+        AWS_REGION: "us-east-1"
+
+###---------------------------------------------------------------#
+###----------------------- BUILD/CI Resources --------------------#
+###---------------------------------------------------------------#
+
+# Docker Image packaging sample Node app
+  - name: demo_doc_img
+    type: image
+    integration: "demo_dh"
+    pointer:
+      sourceName: "avinci/ci_push_docker_hub"
+    seed:
+      versionName: "latest"
+
+# Docker Options for packaged
+  - name: doc_img_opts
+    type: dockerOptions
+    version:
+#      memory: 256
+#      cpuShares: 256
+      portMappings:
+        - 80:80
+
+#---------------------------------------------------------------#
+#----------------------- TEST VPC Resources --------------------#
+#---------------------------------------------------------------#
+
+# Reference to ECS Test Cluster
+  - name: test_env_gke
+    type: cluster
+    integration: "demo_gke"
+    pointer:
+      sourceName: "test" #name of the cluster to which we are deploying
+      region: "us-west1-b"  #name of the region where the cluster is deployed
+
+
+#---------------------------------------------------------------#
+#------------- Application Release Automation Resources --------#
+#---------------------------------------------------------------#
+# REPO of SIT code
+  - name: sit_repo
+    type: gitRepo
+    integration: "demo_gh"
+    pointer:
+      sourceName: "avinci/demoSIT"
+      branch: master
+
+# SIT env vars for BOX
+  - name: sit_params
+    type: params
+    version:
+      params:
+        API_URL: "54.158.18.50:8080"
+        API_TOKEN: "NA"
+
+# Seed version resource
+  - name: seed_app_ver
+    type: version
+    seed:
+      versionName: "1.0.0"
+
+# Current Prod version
+  - name: prod_app_ver
+    type: params
+    version:
+      params:
+        RELEASE_VER_NUMBER: "1.0.0"
+
+#---------------------------------------------------------------#
+#----------------------- PROD VPC Resources --------------------#
+#---------------------------------------------------------------#
+
+# Reference to ECS Prod Cluster
+  - name: prod_env_gke
+    type: cluster
+    integration: "demo_gke"
+    pointer:
+      sourceName : "test"
+      region: "us-west1-b"
+
+#---------------------------------------------------------------#
+#---------------------- CD to PROD Resources -------------------#
+#---------------------------------------------------------------#
+# Number of packaged WARs to deploy to Prod
+  - name: scale_app_prod
+    type: replicas
+    version:
+      count: 1
