@@ -25,14 +25,21 @@ resources:
     seed:
       versionName: "latest"
 
-# Docker Options for packaged
-  - name: doc_img_opts
+# Default Docker Options
+  - name: def_opts
     type: dockerOptions
     version:
-#      memory: 256
-#      cpuShares: 256
+      memory: 128
       portMappings:
         - 80:80
+
+# Default app config
+  - name: def_conf
+    type: params
+    version:
+      params:
+        RUN_MODE: "dev"
+        LOG_MODE: "debug"
 
 #---------------------------------------------------------------#
 #----------------------- TEST VPC Resources --------------------#
@@ -89,6 +96,22 @@ resources:
     pointer:
       sourceName : "test"
       region: "us-west1-b"
+
+# Default Docker Options
+  - name: prod_opts
+    type: dockerOptions
+    version:
+      memory: 256
+      portMappings:
+        - 80:80
+
+# Default app config
+  - name: prod_conf
+    type: params
+    version:
+      params:
+        RUN_MODE: "prod"
+        LOG_MODE: "error"
 
 #---------------------------------------------------------------#
 #---------------------- CD to PROD Resources -------------------#

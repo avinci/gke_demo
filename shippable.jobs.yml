@@ -15,7 +15,8 @@ jobs:
     type: manifest
     steps:
       - IN: demo_doc_img
-      - IN: doc_img_opts
+      - IN: def_opts
+      - IN: def_conf
 
 ##---------------------------------------------------------------#
 ##-------------------- App Release Automation -------------------#
@@ -79,6 +80,8 @@ jobs:
   - name: deploy-app-prod
     type: deploy
     steps:
+      - IN: prod_opts
+      - IN: prod_conf
       - IN: trig_prod_deploy
       - IN: scale_app_prod
       - IN: release_app
