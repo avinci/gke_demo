@@ -90,3 +90,10 @@ jobs:
       - IN: prod_env_gke
         switch: off
       - TASK: managed
+
+
+# Create elb
+  - name: create-lb
+    type: provision
+    steps:
+      - IN: deploy-app-prod
