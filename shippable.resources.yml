@@ -32,6 +32,8 @@ resources:
       privileged: true
       portMappings:
         - 80:80
+      labels:
+        env: test
 
 # Default app config
   - name: def_conf
@@ -104,6 +106,8 @@ resources:
       privileged: false
       portMappings:
         - 80:80
+      labels:
+        env: prod
 
 # Default app config
   - name: prod_conf
