@@ -47,14 +47,14 @@ resources:
 ##----------------------- TEST VPC Resources --------------------#
 ##---------------------------------------------------------------#
 #
-## Reference to ECS Test Cluster
-#  - name: test_env_gke
-#    type: cluster
-#    integration: "demo_gke"
-#    pointer:
-#      sourceName : "prod"
-#      region: "us-east1-b"
-#
+# Reference to ECS Test Cluster
+  - name: test_env_gke
+    type: cluster
+    integration: "demo_gke"
+    pointer:
+      sourceName : "prod"
+      region: "us-east1-b"
+
 ##---------------------------------------------------------------#
 ##------------- Application Release Automation Resources --------#
 ##---------------------------------------------------------------#

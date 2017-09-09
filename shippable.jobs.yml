@@ -22,16 +22,16 @@ jobs:
 ##-------------------- App Release Automation -------------------#
 ##---------------------------------------------------------------#
 #
-## DEPLOY to TEST environment
-#  - name: deploy-app-test
-#    type: deploy
-#    steps:
-#      - IN: create_app_man
-#      - IN: test_env_gke
-#        switch: off
-#      - TASK: managed
-#        deployMethod: replace
-#
+# DEPLOY to TEST environment
+  - name: deploy-app-test
+    type: deploy
+    steps:
+      - IN: create_app_man
+      - IN: test_env_gke
+        switch: off
+      - TASK: managed
+        deployMethod: replace
+
 ## RUN System Integration Testing
 #  - name: sit
 #    type: runSh
