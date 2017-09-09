@@ -10,91 +10,91 @@ jobs:
     steps:
       - OUT: demo_doc_img
 
-# DEFINE app micro service
-  - name: create_app_man
-    type: manifest
-    steps:
-      - IN: demo_doc_img
-      - IN: def_opts
-      - IN: def_conf
-
-#---------------------------------------------------------------#
-#-------------------- App Release Automation -------------------#
-#---------------------------------------------------------------#
-
-# DEPLOY to TEST environment
-  - name: deploy-app-test
-    type: deploy
-    steps:
-      - IN: create_app_man
-      - IN: test_env_gke
-        switch: off
-      - TASK: managed
-        deployMethod: replace
-
-# RUN System Integration Testing
-  - name: sit
-    type: runSh
-    steps:
-      - IN: sit_repo
-      - IN: deploy-app-test
-      - IN: sit_params
-      - TASK:
-        - script: IN/sit_repo/gitRepo/test.sh sit_params
-    on_success:
-      - script: touch /build/state/success.txt
-    on_failure:
-      - script: touch /build/state/failure.txt
-
-# CREATE a production ready release
-  - name: release_app
-    type: release
-    steps:
-      - IN: seed_app_ver
-      - IN: sit
-      - IN: deploy-app-test
-        switch: off
-      - TASK: managed
-        bump: patch
-
-#---------------------------------------------------------------#
-#----------------------- CD to Production ----------------------#
-#---------------------------------------------------------------#
-
-# TRIGGER PROD deployment
-  - name: trig_prod_deploy
-    type: runSh
-    steps:
-      - IN: gke_demo
-        switch: off
-      - IN: release_app
-        switch: off
-      - OUT: prod_app_ver
-      - TASK:
-        - script: IN/gke_demo/gitRepo/setVer.sh release_app prod_app_ver
-
-#---------------------------------------------------------------#
-#-------------- Prod Infra Prov Using ANsible  -----------------#
-#---------------------------------------------------------------#
-
-# DEPLOY app to PROD
-  - name: deploy-app-prod
-    type: deploy
-    steps:
-      - IN: prod_opts
-      - IN: prod_conf
-      - IN: trig_prod_deploy
-      - IN: scale_app_prod
-      - IN: release_app
-        switch: off
-      - IN: prod_env_gke
-        switch: off
-      - TASK: managed
-
-
-## Create elb
-#  - name: create-lb
-#    type: provision
+## DEFINE app micro service
+#  - name: create_app_man
+#    type: manifest
 #    steps:
-#      - IN: deploy-app-prod
-#      - IN: prod-lb
+#      - IN: demo_doc_img
+#      - IN: def_opts
+#      - IN: def_conf
+#
+##---------------------------------------------------------------#
+##-------------------- App Release Automation -------------------#
+##---------------------------------------------------------------#
+#
+## DEPLOY to TEST environment
+#  - name: deploy-app-test
+#    type: deploy
+#    steps:
+#      - IN: create_app_man
+#      - IN: test_env_gke
+#        switch: off
+#      - TASK: managed
+#        deployMethod: replace
+#
+## RUN System Integration Testing
+#  - name: sit
+#    type: runSh
+#    steps:
+#      - IN: sit_repo
+#      - IN: deploy-app-test
+#      - IN: sit_params
+#      - TASK:
+#        - script: IN/sit_repo/gitRepo/test.sh sit_params
+#    on_success:
+#      - script: touch /build/state/success.txt
+#    on_failure:
+#      - script: touch /build/state/failure.txt
+#
+## CREATE a production ready release
+#  - name: release_app
+#    type: release
+#    steps:
+#      - IN: seed_app_ver
+#      - IN: sit
+#      - IN: deploy-app-test
+#        switch: off
+#      - TASK: managed
+#        bump: patch
+#
+##---------------------------------------------------------------#
+##----------------------- CD to Production ----------------------#
+##---------------------------------------------------------------#
+#
+## TRIGGER PROD deployment
+#  - name: trig_prod_deploy
+#    type: runSh
+#    steps:
+#      - IN: gke_demo
+#        switch: off
+#      - IN: release_app
+#        switch: off
+#      - OUT: prod_app_ver
+#      - TASK:
+#        - script: IN/gke_demo/gitRepo/setVer.sh release_app prod_app_ver
+#
+##---------------------------------------------------------------#
+##-------------- Prod Infra Prov Using ANsible  -----------------#
+##---------------------------------------------------------------#
+#
+## DEPLOY app to PROD
+#  - name: deploy-app-prod
+#    type: deploy
+#    steps:
+#      - IN: prod_opts
+#      - IN: prod_conf
+#      - IN: trig_prod_deploy
+#      - IN: scale_app_prod
+#      - IN: release_app
+#        switch: off
+#      - IN: prod_env_gke
+#        switch: off
+#      - TASK: managed
+#
+#
+### Create elb
+##  - name: create-lb
+##    type: provision
+##    steps:
+##      - IN: deploy-app-prod
+##      - IN: prod-lb
