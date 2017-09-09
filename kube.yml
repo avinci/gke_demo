@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: sample-app
+  labels:
+     app: web
+     environment: {$RUN_MODE}
+spec:
+  replicas: {$REPLICAS}
+  selector:
+    app: sample
+  template:
+    metadata:
+      name: sample-app
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: node-app
+        image: gcr.io/sample-gke/basic-node-deploy-gke:{$TAG}
+        ports:
+        - containerPort: {$PORT}
+        env:
+          - name: RUN_MODE
+            value: {$RUN_MODE}
+          - name: LOG_MODE
+            value: {$LOG_MODE}
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: sample-app
+  labels:
+     app: web
+     environment: prod
+spec:
+  replicas: 6
+  selector:
+    app: sample
+  template:
+    metadata:
+      name: sample-app
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: node-app
+        image: gcr.io/sample-gke/basic-node-deploy-gke:v1.17.1
+        ports:
+        - containerPort: 80
+        env:
+          - name: RUN_MODE
+            value: prod
+          - name: LOG_MODE
+            value: prod
