@@ -25,24 +25,24 @@ resources:
     seed:
       versionName: "latest"
 
-## Default Docker Options
-#  - name: def_opts
-#    type: dockerOptions
-#    version:
-#      privileged: true
-#      portMappings:
-#        - 8080:80
-#      labels:
-#        env: test
-#
-## Default app config
-#  - name: def_conf
-#    type: params
-#    version:
-#      params:
-#        RUN_MODE: "dev"
-#        LOG_MODE: "debug"
-#
+# Default Docker Options
+  - name: def_opts
+    type: dockerOptions
+    version:
+      privileged: true
+      portMappings:
+        - 8080:80
+      labels:
+        env: test
+
+# Default app config
+  - name: def_conf
+    type: params
+    version:
+      params:
+        RUN_MODE: "dev"
+        LOG_MODE: "debug"
+
 ##---------------------------------------------------------------#
 ##----------------------- TEST VPC Resources --------------------#
 ##---------------------------------------------------------------#
